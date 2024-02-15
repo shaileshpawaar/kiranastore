@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>गजानन किरणा स्टोर</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+      transition: color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      color: #ddd;
+    }
+
+    main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #555;
+      color: #fff;
+    }
+
+    form {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%; /* Change to 300px for non-responsive width */
+      max-width: 400px; /* Added max-width for responsive width */
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #555;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #777;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    li {
+      margin: 0 10px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .totals-section {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .totals-heading {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .total-value {
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Media queries for responsiveness */
+    @media only screen and (max-width: 600px) {
+      form {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>गजानन किराणा स्टोर</h1>
+    <nav>
+     
+
+ <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="addProductForm">
+      <h2>Add a Product</h2>
+      <label for="productName">Product Name:</label>
+      <input type="text" id="productName" placeholder="Enter product name" required>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" min="0" required>
+
+      <label for="unit">Unit:</label>
+      <select id="unit">
+        <option value="kg">kg</option>
+        <option value="gm">gm</option>
+        <option value="dozen">dozen</option>
+      </select>
+
+      <label for="price">Price (per unit):</label>
+      <input type="number" id="price" min="0" step="0.01" required>
+
+      <button type="button" onclick="addProduct()">Add Product</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Unit</th>
+          <th>Price</th>
+          <th>Total Value</th>
+        </tr>
+      </thead>
+      <tbody id="inventoryTableBody">
+        <!-- Inventory items will be dynamically added here -->
+      </tbody>
+    </table>
+
+    <div class="totals-section">
+      <h2 class="totals-heading">Total Value of All Products</h2>
+      <p class="total-value" id="totalValue">0.00</p>
+    </div>
+
+    <img src="https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2020-12/Kirana.jpg" alt="Hero Image" class="hero-image">
+
+    <input type="text" class="search-bar" placeholder="Search products...">
+  </main>
+
+  <script>
+    const initialInventory = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadInventory(initialInventory);
+    });
+
+    function loadInventory(inventory) {
+      const inventoryTableBody = document.getElementById('inventoryTableBody');
+      inventoryTableBody.innerHTML = '';
+
+      let totalValue = 0;
+
+      inventory.forEach(product => {
+        const row = document.createElement('tr');
+        const totalProductValue = product.unit === 'kg' ? (product.quantity * product.price) : (product.unit === 'dozen' ? (product.quantity * 12 * product.price) : ((product.quantity / 1000) * product.price));
+        totalValue += totalProductValue;
+
+        row.innerHTML = `
+          <td style="color: #333; font-weight: bold;">${product.name}</td>
+          <td>${product.quantity}</td>
+          <td>${product.unit}</td>
+          <td>${product.price}</td>
+          <td>${totalProductValue.toFixed(2)}</td>
+        `;
+        inventoryTableBody.appendChild(row);
+      });
+
+      const totalValueElement = document.getElementById('totalValue');
+      totalValueElement.textContent = totalValue.toFixed(2);
+    }
+
+    function addProduct() {
+      const nameInput = document.getElementById('productName');
+      const quantityInput = document.getElementById('quantity');
+      const unitInput = document.getElementById('unit');
+      const priceInput = document.getElementById('price');
+
+      const name = nameInput.value.trim();
+      const quantity = parseFloat(quantityInput.value);
+      const unit = unitInput.value;
+      const price = parseFloat(priceInput.value);
+
+      if (name !== '' && !isNaN(quantity) && quantity >= 0 && price >= 0) {
+        const newRow = document.createElement('tr');
+        const totalProductValue = unit === 'kg' ? (quantity * price) : (unit === 'dozen' ? (quantity * 12 * price) : ((quantity / 1000) * price));
+
+        newRow.innerHTML = `
+          <td>${name}</td>
+          <td>${quantity}</td>
+          <td>${unit}</td>
+          <td>${price}</td>
+          <td>${totalProductValue.toFixed(2)}</td>
+        `;
+        document.getElementById('inventoryTableBody').appendChild(newRow);
+
+        nameInput.value = '';
+        quantityInput.value = '';
+        unitInput.value = 'kg';
+        priceInput.value = '';
+
+        const totalValueElement = document.getElementById('totalValue');
+        const currentTotalValue = parseFloat(totalValueElement.textContent);
+        totalValueElement.textContent = (currentTotalValue + totalProductValue).toFixed(2);
+      } else {
+        alert('Please fill in valid product details.');
+      }
+    }
+  </script>
+</body>
+</html>
